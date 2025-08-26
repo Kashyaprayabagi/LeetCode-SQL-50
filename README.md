@@ -93,9 +93,64 @@ This question is same as **Question 6**.
 NOTE: To use **RIGHT JOIN** we will have to simply select __Product__ first and then **Sales**. Answer will be same.
 
 
+## 8. Customer Who Visited but Did Not Make Any Transactions
+
+In this questions we need to find number of customers who visited the mall but never made any transaction. Also find numbers of times they visited and never made any transaction.
+
+- Here first **LEFT JOIN Visits** & **Transactions** and join them on a common paramenter that is **visit_id**.
+
+- Now we get all the rows including those where transaction never happened. They will be **Null**.
+
+- Now select all the rows where the **transaction_id** is **NULL**. 
+
+- Use **COUNT** funtion to count the number of visits. **Count or Any Aggregate Funciton** is always follwed by **GROUP BY**.
+
+- **GROUP BY** comes after **WHERE** clause.
+
+```bash
+  SELECT v.customer_id, 
+  COUNT(v.customer_id) AS count_no_trans
+  FROM Visits v
+  LEFT JOIN Transactions t
+  ON v.visit_id = t.visit_id
+  WHERE t.transaction_id IS NULL
+  GROUP BY v.customer_id;
+```
+
+NOTE: Breakdown the problem into smaller steps and then solve them. First step is to find out the Join and analyise the resutls of Join.
+
+## 9. Rising Temperature (DATEDIFF)
+
+This question already tells us that we need to **Self Join**. The major challenge here might be to join in such a way that the previous day temperature is joined for every row. 
+
+- Every row must contain its data and also the temperature of **Previous Day**. 
+
+- We Can use **INNER JOIN** here. Since the table is same, any join will work.
+
+- Once this is done simply compare the 2 two columns. **Present Day Temp** and **Previous Day Temp** and return the **ID** if the temperature of a day is *greater* than the previous day.
+
+```bash
+  SELECT w1.id
+  FROM Weather w1
+  INNER JOIN Weather w2
+  WHERE DATEDIFF(w1.recordDate,w2.recordDate) = 1
+  AND w1.temperature > w2.temperature;
+```
+
+NOTE: **DATEDIFF** Function helps us find difference between the Dates. 
+
+## 10. Average Time of Process per Machine
 
 
+```bash
+  SELECT w1.id
+  FROM Weather w1
+  INNER JOIN Weather w2
+  WHERE DATEDIFF(w1.recordDate,w2.recordDate) = 1
+  AND w1.temperature > w2.temperature;
+```
 
+NOTE: **DATEDIFF** Function helps us find difference between the Dates.
 
 
 
